@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { Alert, SafeAreaView } from 'react-native';
+
 import { Header } from '../components/Header';
 import { MyTasksList } from '../components/MyTasksList';
 import { TodoInput } from '../components/TodoInput';
@@ -11,15 +13,11 @@ interface Task {
 }
 
 export function Home() {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
 
   function handleChangeTheme() {
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
+    setTheme(!theme);
   }
 
   function handleAddTask(newTaskTitle: string) {
@@ -53,7 +51,12 @@ export function Home() {
   }
 
   return (
-    <>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: theme ? '#10101E' : '#fff',
+      }}
+    >
       <Header theme={theme} onUserAction={handleChangeTheme} />
 
       <TodoInput theme={theme} addTask={handleAddTask} />
@@ -64,6 +67,6 @@ export function Home() {
         onPress={handleMarkTaskAsDone} 
         onLongPress={handleRemoveTask} 
       />
-    </>
+    </SafeAreaView>
   )
 }
